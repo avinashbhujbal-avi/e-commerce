@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= product.name %> - Scratch</title>
+    <link rel="stylesheet" href="/css/product-detail.css">
+</head>
+<body>
+   <%- include('nav.ejs') %>
+
+    <div class="container">
+        <div class="product-detail">
+            <div>
+                <img src="<%= product.image || '/images/default-product.jpg' %>" 
+                     alt="<%= product.name %>" 
+                     class="product-image"
+                     onerror="this.src='/images/default-product.jpg'">
+            </div>
+            <div class="product-info">
+                <h1 class="product-title"><%= product.name %></h1>
+                <p class="product-description"><%= product.description %></p>
+                
+                <div class="price-section">
+                    <div class="price-row">
+                        <span class="price">
+                            ₹<%= (product.price * (1 - product.discount/100)).toFixed(0) %>
+                        </span>
+                        <% if (product.discount > 0) { %>
+                            <span class="original-price">₹<%= product.price %></span>
+                            <span class="discount"><%= product.discount %>% OFF</span>
+                        <% } %>
+                    </div>
+                    <% if (product.discount > 0) { %>
+                        <div class="save">
+                            You save ₹<%= (product.price * product.discount/100).toFixed(0) %>
+                        </div>
+                    <% } %>
+                </div>
+
+                <div class="product-actions">
+                    <a href="/home" class="button2">Continue Shopping</a>
+                    <form action="/user/cart/add" method="POST" style="display: contents;">
+                        <input type="hidden" name="productId" value="<%= product._id %>">
+                        <button type="submit" class="button1">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/product-detail.js"></script>
+</body>
+</html>

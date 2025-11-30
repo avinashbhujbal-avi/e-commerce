@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Scratch</title>
+    
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+    <div class="main">
+        <div class="container">
+            <div class="title">Create Account</div>
+            <div class="tagline">Join Scratch today</div>
+        </div>
+
+        <form id="signupForm" method="POST">
+            <div class="radiobutton">
+                <div class="option active" id="userRole">
+                    <input type="radio" name="role" value="user" checked hidden>
+                    User
+                </div>
+                <div class="option" id="ownerRole">
+                    <input type="radio" name="role" value="owner" hidden>
+                    Owner
+                </div>
+            </div>
+
+            <div class="form">
+                <label class="lable">Full Name</label>
+                <input type="text" name="fullname" class="input" required>
+            </div>
+
+            <div class="form">
+                <label class="lable">Email</label>
+                <input type="email" name="email" class="input" required>
+            </div>
+
+            <div class="form">
+                <label class="lable">Password</label>
+                <input type="password" name="password" class="input" required>
+            </div>
+
+            <div class="form" id="gstField">
+                <label class="lable">GSTIN Number</label>
+                <input type="text" name="gstin" class="input">
+            </div>
+
+            <button type="submit" class="btn">Create Account</button>
+        </form>
+
+        <div class="footer">
+            Already have an account? <a href="/login" class="link">Sign in</a>
+        </div>
+    </div>
+
+    <script src="/js/Signup.js"></script>
+</body>
+</html>

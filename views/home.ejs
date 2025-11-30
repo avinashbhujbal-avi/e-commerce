@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Scratch</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+    <%- include('nav.ejs') %>
+
+    <div class="container">
+        <div class="home-header">
+            <h1 class="title">Discover Amazing Products</h1>
+            <p class="text">Shop the latest trends and best deals on Scratch</p>
+        </div>
+
+        <% if (products.length > 0) { %>
+            <div class="products-grid">
+                <% products.forEach(product => { %>
+                    <div class="product-card">
+                        <img src="<%= product.image || './public/images/image.jpeg' %>" 
+                             alt="<%= product.name %>" 
+                             class="product-image"
+                             onerror="this.src='images/image.jpeg'">
+                        <div class="product-content">
+                            <h3 class="product-title"><%= product.name %></h3>
+                            <p class="product-description"><%= product.description %></p>
+                            <div class="product-price">
+                                <span class="price">₹<%= (product.price * (1 - product.discount/100)).toFixed(0) %></span>
+                                <% if (product.discount > 0) { %>
+                                    <span class="original-price">₹<%= product.price %></span>
+                                    <span class="discount"><%= product.discount %>% OFF</span>
+                                <% } %>
+                            </div>
+                            <div class="product-actions">
+                                <a href="/product/<%= product._id %>" class="button view-details">View Details</a>
+                                <form action="/user/cart/add" method="POST">
+                                    <input type="hidden" name="productId" value="<%= product._id %>">
+                                    <button type="submit" class="button add-to-cart">Add to Cart</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <div class="empty-state">
+                <h3 class="empty-title">No Products Available</h3>
+                <p class="empty-text">Check back later for new products!</p>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="/js/home.js"></script>
+</body>
+</html>

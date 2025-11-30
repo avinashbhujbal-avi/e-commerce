@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Scratch</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="main">
+        <div class="container">
+            <div class="title">Welcome Back</div>
+            <div class="tagline">Sign in to your account</div>
+        </div>
+
+     
+
+        <form id="loginForm" method="POST">
+            <div class="radiobutton">
+                <div class="option active" id="userRole">
+                    <input type="radio" name="role" value="user" checked hidden>
+                    User
+                </div>
+                <div class="option" id="ownerRole">
+                    <input type="radio" name="role" value="owner" hidden>
+                    Owner
+                </div>
+            </div>
+
+            <div class="form">
+                <label class="label">Email</label>
+                <input type="email" name="email" class="input" required>
+            </div>
+
+            <div class="form">
+                <label class="label">Password</label>
+                <input type="password" name="password" class="input" required>
+            </div>
+
+            <button type="submit" class="button">Sign In</button>
+        </form>
+
+        <div class="footer">
+            Don't have an account? <a href="/signup" class="link">Sign up</a>
+        </div>
+    </div>
+
+    <script src="/js/login.js"></script>
+</body>
+</html>

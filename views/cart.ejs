@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Scratch</title>
+    <link rel="stylesheet" href="/css/cart.css">
+</head>
+<body>
+    
+<%- include('nav.ejs') %>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Your Shopping Cart</h1>
+        </div>
+
+        <% 
+        let subtotal = 0;
+        let total = 0;
+        let shipping = 0;
+        
+        if (cart && cart.length > 0) { 
+            // Calculate subtotal
+            cart.forEach(item => {
+                if (item.product && item.product.price && item.quantity) {
+                    const discountedPrice = item.product.price * (1 - (item.product.discount || 0) / 100);
+                    subtotal += discountedPrice * item.quantity;
+                }
+            });
+            
+            // Calculate shipping (free if subtotal > 500, else 50)
+            shipping = subtotal > 500 ? 0 : 50;
+            total = subtotal + shipping;
+        %>
+            <div class="layout">
+                <div class="items">
+                    <% cart.forEach(item => { 
+                        if (item.product) {
+                            const discountedPrice = item.product.price * (1 - (item.product.discount || 0) / 100);
+                            const itemTotal = discountedPrice * item.quantity;
+                    %>
+                        <div class="item">
+                            <img src="<%= item.product.image || '/images/default-product.jpg' %>" 
+                                 alt="<%= item.product.name || 'Product' %>" 
+                                 class="image"
+                                 onerror="this.src='/images/default-product.jpg'">
+                            <div class="detail">
+                                <h3 class="name"><%= item.product.name || 'Unnamed Product' %></h3>
+                                <p class="description"><%= item.product.description || '' %></p>
+                                <div class="price">
+                                    ₹<%= discountedPrice.toFixed(0) %> × <%= item.quantity %>
+                                </div>
+                                <% if (item.product.discount > 0) { %>
+                                    <div class="discount-info">
+                                        <span class="original">₹<%= item.product.price.toFixed(0) %></span>
+                                        <span class="discount"><%= item.product.discount %>% OFF</span>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="total">
+                                ₹<%= itemTotal.toFixed(0) %>
+                            </div>
+                        </div>
+                    <% } %>
+                    <% }) %>
+                </div>
+
+                <div class="summary">
+                    <h3 class="head">Order Summary</h3>
+                    <div class="line">
+                        <span>Subtotal (<%= cart.length %> items):</span>
+                        <span>₹<%= subtotal.toFixed(0) %></span>
+                    </div>
+                    <div class="line">
+                        <span>Shipping:</span>
+                        <span><%= shipping === 0 ? 'FREE' : '₹' + shipping.toFixed(0) %></span>
+                    </div>
+                    <% if (shipping === 0 && subtotal > 0) { %>
+                        <div class="shipping-note">
+                             Free shipping on orders above ₹500!
+                        </div>
+                    <% } %>
+                    <div class="line total-line">
+                        <span class="final">Total:</span>
+                        <span class="final">₹<%= total.toFixed(0) %></span>
+                    </div>
+                    <div class="actions">
+                        <a href="/home" class="btn shop">Continue Shopping</a>
+                        <form action="/user/order/create" method="POST">
+                            <button type="submit" class="btn order">Place Order (₹<%= total.toFixed(0) %>)</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="empty">
+                <h3 class="msg">Your cart is empty</h3>
+                <p class="text">Add some amazing products to get started!</p>
+                <a href="/user/home" class="btn start">Start Shopping</a>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="/js/cart.js"></script>
+</body>
+</html>
